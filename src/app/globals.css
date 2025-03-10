@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-orbitron: 'Orbitron', sans-serif;
+    --font-poppins: 'Poppins', sans-serif;
+  }
+  
+  .dark {
+    --bg-light: #121212;
+    --bg-dark: #121212;
+    --bg-card-light: #1E1E1E;
+    --bg-card-dark: #1E1E1E;
+    --bg-input-light: #2D2D2D;
+    --bg-input-dark: #2D2D2D;
+    --bg-hover-light: #3D3D3D;
+    --bg-hover-dark: #3D3D3D;
+    --text-primary-light: #FFFFFF;
+    --text-primary-dark: #FFFFFF;
+    --text-secondary-light: #A0A0A0;
+    --text-secondary-dark: #A0A0A0;
+    --text-muted-light: #777777;
+    --text-muted-dark: #777777;
+    --border-light: #444444;
+    --border-dark: #444444;
+  }
+  
+  html {
+    font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .font-orbitron {
+    font-family: var(--font-orbitron);
+  }
+  
+  .font-poppins {
+    font-family: var(--font-poppins);
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
