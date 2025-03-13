@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import { 
   FaFacebook, 
   FaTwitter, 
@@ -22,11 +24,12 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* About Section */}
             <div>
-              <div className="flex items-center mb-4">
+              {/* <div className="flex items-center mb-4">
                 <span className="text-2xl font-orbitron font-bold text-primary">
                   Tech<span className="text-secondary">Sphere</span>
                 </span>
-              </div>
+              </div> */}
+              <Image src="/images/logo.png" alt="TechSphere Logo" width={200} height={200} />
               <p className="text-text-secondary-light dark:text-text-secondary-dark mb-4">
                 Your one-stop destination for cutting-edge electronics and tech products. We bring the future to your doorstep.
               </p>
