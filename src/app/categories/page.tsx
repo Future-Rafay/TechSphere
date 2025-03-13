@@ -11,7 +11,7 @@ const categories = [
     description: "Latest models with cutting-edge features",
     image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Modern smartphone on a colorful background",
-    link: "/categories/smartphones",
+    slug: "smartphones",
     count: 128,
     featured: true
   },
@@ -21,7 +21,7 @@ const categories = [
     description: "Powerful machines for work and play",
     image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Laptop on a wooden desk",
-    link: "/categories/laptops",
+    slug: "laptops",
     count: 94,
     featured: true
   },
@@ -31,7 +31,7 @@ const categories = [
     description: "Immersive sound experiences",
     image: "https://images.unsplash.com/photo-1545127398-14699f92334b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Headphones on a colorful background",
-    link: "/categories/audio",
+    slug: "audio",
     count: 76,
     featured: true
   },
@@ -41,7 +41,7 @@ const categories = [
     description: "Level up your gaming experience",
     image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Gaming controller with RGB lighting",
-    link: "/categories/gaming",
+    slug: "gaming",
     count: 112,
     featured: true
   },
@@ -51,7 +51,7 @@ const categories = [
     description: "Make your home smarter",
     image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Smart home devices on a table",
-    link: "/categories/smart-home",
+    slug: "smart-home",
     count: 68,
     featured: true
   },
@@ -61,7 +61,7 @@ const categories = [
     description: "Tech that goes where you go",
     image: "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Smart watch on a wrist",
-    link: "/categories/wearables",
+    slug: "wearables",
     count: 53,
     featured: true
   },
@@ -71,7 +71,7 @@ const categories = [
     description: "Capture moments in stunning detail",
     image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Professional camera on a dark background",
-    link: "/categories/cameras",
+    slug: "cameras",
     count: 47,
     featured: false
   },
@@ -81,7 +81,7 @@ const categories = [
     description: "Portable computing power",
     image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Tablet displaying colorful graphics",
-    link: "/categories/tablets",
+    slug: "tablets",
     count: 39,
     featured: false
   },
@@ -91,7 +91,7 @@ const categories = [
     description: "Enhance your computing experience",
     image: "https://images.unsplash.com/photo-1563191911-e65f8655ebf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Computer keyboard and mouse",
-    link: "/categories/computer-accessories",
+    slug: "computer-accessories",
     count: 85,
     featured: false
   },
@@ -101,7 +101,7 @@ const categories = [
     description: "Stay connected with reliable equipment",
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Networking equipment with cables",
-    link: "/categories/networking",
+    slug: "networking",
     count: 32,
     featured: false
   },
@@ -111,7 +111,7 @@ const categories = [
     description: "Keep your data safe and accessible",
     image: "https://images.unsplash.com/photo-1597848212624-a19eb35e2651?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "External hard drives and SSDs",
-    link: "/categories/storage",
+    slug: "storage",
     count: 41,
     featured: false
   },
@@ -121,7 +121,7 @@ const categories = [
     description: "Crystal clear displays for work and play",
     image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     alt: "Ultra-wide monitor on desk",
-    link: "/categories/monitors",
+    slug: "monitors",
     count: 36,
     featured: false
   }
@@ -205,7 +205,7 @@ export default function CategoriesPage() {
               {featuredCategories.map((category) => (
                 <Link 
                   key={category.id} 
-                  href={category.link}
+                  href={`/categories/${category.slug}`}
                   className="group block"
                 >
                   <div className="relative h-64 overflow-hidden rounded-lg shadow-md">
@@ -249,36 +249,27 @@ export default function CategoriesPage() {
               {allCategories.map((category) => (
                 <Link 
                   key={category.id} 
-                  href={category.link}
-                  className="bg-bg-card-light dark:bg-bg-card-dark rounded-lg shadow-md overflow-hidden group hover:shadow-lg transition-shadow duration-300"
+                  href={`/categories/${category.slug}`}
+                  className="bg-bg-card-light dark:bg-bg-card-dark rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group"
                 >
                   <div className="relative h-40 overflow-hidden">
                     <Image
                       src={category.image}
                       alt={category.alt}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     
                     <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">
-                        {category.name}
-                      </h3>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4">
-                    <p className="text-sm text-text-secondary-light dark:text-text-secondary-dark mb-2 line-clamp-2">
-                      {category.description}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-text-muted-light dark:text-text-muted-dark">
-                        {category.count} products
-                      </span>
-                      <span className="text-primary text-sm font-medium">
-                        Browse
-                      </span>
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">
+                          {category.name}
+                        </h3>
+                        <span className="text-xs text-gray-300">
+                          {category.count}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </Link>

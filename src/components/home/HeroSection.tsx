@@ -8,16 +8,6 @@ import { FaArrowRight } from "react-icons/fa";
 const slides = [
   {
     id: 1,
-    title: "Next-Gen Tech",
-    subtitle: "Experience the future today",
-    description: "Discover cutting-edge gadgets that transform how you live, work, and play.",
-    cta: "Shop Now",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
-    alt: "Futuristic gadgets with neon lighting",
-    link: "/categories/gadgets"
-  },
-  {
-    id: 2,
     title: "Premium Audio",
     subtitle: "Immersive sound experience",
     description: "Elevate your audio experience with our premium collection of headphones and speakers.",
@@ -25,6 +15,16 @@ const slides = [
     image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
     alt: "Premium headphones on a dark background",
     link: "/categories/audio"
+  },
+  {
+    id: 2,
+    title: "Next-Gen Tech",
+    subtitle: "Experience the future today",
+    description: "Discover cutting-edge gadgets that transform how you live, work, and play.",
+    cta: "Shop Now",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+    alt: "Futuristic gadgets with neon lighting",
+    link: "/categories/gadgets"
   },
   {
     id: 3,
@@ -49,7 +49,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative h-[600px] overflow-hidden">
+    <section className="relative h-[800px] w-full overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div

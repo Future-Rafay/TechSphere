@@ -1,87 +1,85 @@
-# TechSphere
+# TechSphere E-commerce Platform
 
-A modern e-commerce platform built with Next.js, featuring authentication, product categories, blog, and more.
+A modern, feature-rich e-commerce platform for electronics and tech products built with Next.js.
 
 ## Features
 
-- Next.js 14 with App Router
-- Authentication with NextAuth.js (GitHub and Google providers)
-- Responsive design with Tailwind CSS
-- Dark/Light mode with next-themes
-- Shopping cart and wishlist functionality
-- Blog section
-- Notifications system
-- Deals and categories pages
+### Authentication
+- Multiple authentication providers (GitHub, Google, Credentials)
+- JWT-based authentication
+- Server-side route protection
+- Client-side route protection
+- Custom hooks for authentication state management
+- Admin role detection and admin dashboard
+
+### User Interface
+- Modern, responsive design
+- Dark/light mode support
+- Animated transitions and interactions
+- Mobile-friendly navigation
+
+### E-commerce Functionality
+- Product browsing and filtering
+- Dynamic product details pages
+- Shopping cart with localStorage persistence
+- Quantity adjustment and item removal
+- One-click checkout
+- Order summary with tax calculation
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Authentication**: NextAuth.js
+- **State Management**: React Context API
+- **Animations**: Framer Motion
+- **Icons**: React Icons
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 18.x or later
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/techsphere.git
-   cd techsphere
-   ```
-
+1. Clone the repository
 2. Install dependencies:
    ```bash
    npm install
-   # or
-   yarn install
    ```
-
-3. Set up environment variables:
-   - Copy `.env.example` to `.env.local`
-   - Fill in your own values for the environment variables
-
+3. Set up environment variables in `.env.local`:
+   ```
+   NEXTAUTH_SECRET="your-secret-key"
+   NEXTAUTH_URL="http://localhost:3000"
+   GITHUB_ID="your-github-client-id"
+   GITHUB_SECRET="your-github-client-secret"
+   GOOGLE_CLIENT_ID="your-google-client-id"
+   GOOGLE_CLIENT_SECRET="your-google-client-secret"
+   ```
 4. Run the development server:
    ```bash
    npm run dev
-   # or
-   yarn dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## Authentication
 
-## Deployment
+### Test Accounts
+- Regular User:
+  - Email: user@example.com
+  - Password: password
+- Admin User:
+  - Email: admin@example.com
+  - Password: admin
 
-### Deploying to Vercel
+### Protected Routes
+- `/profile` - Server-side protected
+- `/dashboard` - Client-side protected
+- `/admin/dashboard` - Admin-only access
 
-1. Push your code to a GitHub repository.
-2. Go to [Vercel](https://vercel.com) and import your project.
-3. Set the environment variables in the Vercel dashboard.
-4. Deploy!
+## Project Structure
 
-### Deploying to other platforms
-
-1. Build the project:
-   ```bash
-   npm run build
-   # or
-   yarn build
-   ```
-
-2. Start the production server:
-   ```bash
-   npm run start
-   # or
-   yarn start
-   ```
-
-## Environment Variables
-
-- `NEXTAUTH_SECRET`: Secret used for NextAuth.js
-- `NEXTAUTH_URL`: Your deployment URL
-- `GITHUB_ID`: GitHub OAuth Client ID
-- `GITHUB_SECRET`: GitHub OAuth Client Secret
-- `GOOGLE_CLIENT_ID`: Google OAuth Client ID
-- `GOOGLE_CLIENT_SECRET`: Google OAuth Client Secret
+- `/src/app` - Next.js app router pages
+- `/src/components` - Reusable UI components
+- `/src/lib` - Utilities, hooks, and context providers
+- `/src/lib/hooks` - Custom React hooks
+- `/src/lib/context` - React context providers
+- `/src/lib/utils` - Utility functions
 
 ## License
 
-This project is licensed under the MIT License.
+MIT

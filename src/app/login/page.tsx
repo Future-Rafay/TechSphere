@@ -3,27 +3,26 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { FaUser, FaLock, FaGoogle, FaGithub } from "react-icons/fa";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 // Component to handle search params
 function LoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
-  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+  
+  const { login, loginWithProvider, isLoading, error: authError } = useAuth();
 
+  // If there's an error from the auth hook, display it
   useEffect(() => {
-    // If user is already logged in, redirect to callback URL or home page
-    if (session) {
-      router.push(callbackUrl);
+    if (authError) {
+      setError(authError);
     }
-  }, [session, router, callbackUrl]);
+  }, [authError]);
 
   const validateForm = () => {
     if (!email) {
@@ -49,40 +48,11 @@ function LoginContent() {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-        callbackUrl,
-      });
-
-      if (result?.error) {
-        setError("Invalid email or password");
-      } else if (result?.url) {
-        router.push(result.url);
-      }
-    } catch (error) {
-      setError("An error occurred during sign in");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    await login(email, password, callbackUrl);
   };
 
   const handleOAuthSignIn = async (provider: string) => {
-    setIsLoading(true);
-    try {
-      await signIn(provider, { 
-        callbackUrl,
-        redirect: true 
-      });
-    } catch (error) {
-      console.error("OAuth sign in error:", error);
-      setError(`Failed to sign in with ${provider}`);
-      setIsLoading(false);
-    }
+    await loginWithProvider(provider, callbackUrl);
   };
 
   return (

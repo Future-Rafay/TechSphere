@@ -6,6 +6,10 @@ import {
   TechBlogPreview, 
   Newsletter 
 } from "@/components/home";
+import SmartPopup from "@/components/SmartPopup";
+// import AuthPopup from "@/components/AuthPopup";
+
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -34,6 +38,8 @@ export default function Home() {
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark">
    
       <main>
+        <SmartPopup />
+        {/* <AuthPopup /> */}
         <HeroSection />
         <FeaturedProducts />
         <CategoryShowcase />

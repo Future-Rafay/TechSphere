@@ -3,99 +3,26 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
+import { products } from "@/data/products";
+import { useCart } from "@/lib/context/CartContext";
 
-const products = [
-  {
-    id: 1,
-    name: "Ultra HD Smart TV",
-    category: "Televisions",
-    price: 1299.99,
-    rating: 4.8,
-    reviews: 124,
-    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Ultra HD Smart TV with thin bezels",
-    link: "/products/ultra-hd-smart-tv"
-  },
-  {
-    id: 2,
-    name: "Wireless Noise-Cancelling Headphones",
-    category: "Audio",
-    price: 349.99,
-    rating: 4.9,
-    reviews: 208,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Premium wireless headphones",
-    link: "/products/wireless-noise-cancelling-headphones"
-  },
-  {
-    id: 3,
-    name: "Professional Gaming Laptop",
-    category: "Computers",
-    price: 1899.99,
-    rating: 4.7,
-    reviews: 156,
-    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Gaming laptop with RGB keyboard",
-    link: "/products/professional-gaming-laptop"
-  },
-  {
-    id: 4,
-    name: "Smart Watch Series 7",
-    category: "Wearables",
-    price: 399.99,
-    rating: 4.6,
-    reviews: 89,
-    image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Smart watch with fitness tracking",
-    link: "/products/smart-watch-series-7"
-  },
-  {
-    id: 5,
-    name: "Wireless Charging Dock",
-    category: "Accessories",
-    price: 79.99,
-    rating: 4.5,
-    reviews: 67,
-    image: "https://images.unsplash.com/photo-1608751819407-8c8734b2c66a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Wireless charging dock for multiple devices",
-    link: "/products/wireless-charging-dock"
-  },
-  {
-    id: 6,
-    name: "4K Drone with Camera",
-    category: "Cameras",
-    price: 799.99,
-    rating: 4.7,
-    reviews: 42,
-    image: "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Drone with 4K camera",
-    link: "/products/4k-drone-with-camera"
-  },
-  {
-    id: 7,
-    name: "Smart Home Hub",
-    category: "Smart Home",
-    price: 129.99,
-    rating: 4.4,
-    reviews: 53,
-    image: "https://images.unsplash.com/photo-1558002038-1055e2e28ed1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Smart home hub device",
-    link: "/products/smart-home-hub"
-  },
-  {
-    id: 8,
-    name: "Portable Bluetooth Speaker",
-    category: "Audio",
-    price: 149.99,
-    rating: 4.6,
-    reviews: 78,
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    alt: "Portable waterproof bluetooth speaker",
-    link: "/products/portable-bluetooth-speaker"
-  }
-];
+// Get a subset of products for the featured section
+const featuredProducts = products.slice(0, 8);
 
 export default function FeaturedProducts() {
+  const { addItem } = useCart();
+
+  const handleAddToCart = (product: typeof products[0], e: React.MouseEvent) => {
+    e.preventDefault();
+    addItem({
+      id: product.id.toString(),
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: 1
+    });
+  };
+
   return (
     <section className="py-16 bg-bg-light dark:bg-bg-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -109,12 +36,12 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {featuredProducts.map((product) => (
             <div 
               key={product.id} 
               className="bg-bg-card-light dark:bg-bg-card-dark rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1"
             >
-              <Link href={product.link} className="block">
+              <Link href={`/products/${product.slug}`} className="block">
                 <div className="relative h-48 overflow-hidden">
                   <Image
                     src={product.image}
@@ -151,6 +78,7 @@ export default function FeaturedProducts() {
                     <button 
                       className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                       aria-label={`Add ${product.name} to cart`}
+                      onClick={(e) => handleAddToCart(product, e)}
                     >
                       <FaShoppingCart size={16} />
                     </button>
@@ -164,7 +92,7 @@ export default function FeaturedProducts() {
         <div className="text-center mt-12">
           <Link 
             href="/products" 
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors duration-300"
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-hover transition-colors duration-300"
           >
             View All Products
           </Link>
