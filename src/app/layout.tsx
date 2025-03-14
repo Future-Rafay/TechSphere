@@ -7,6 +7,7 @@ import { WishlistProvider } from "@/lib/context/WishlistContext";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import AuthProvider from "@/components/auth/AuthProvider";
+import { PageTransition } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: {
@@ -113,7 +114,9 @@ export default async function RootLayout({
                 disableTransitionOnChange
               >
                 <Navbar />
-                {children}
+                <PageTransition>
+                  {children}
+                </PageTransition>
                 <Footer />
               </ThemeProvider>
             </WishlistProvider>

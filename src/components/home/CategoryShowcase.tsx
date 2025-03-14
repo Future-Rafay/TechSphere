@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useAnimation } from "@/lib/hooks/useAnimation";
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
 
 const categories = [
   {
@@ -61,23 +64,87 @@ const categories = [
 ];
 
 export default function CategoryShowcase() {
+  const sectionRef = useAnimation({ 
+    type: "fadeIn", 
+    duration: 0.8, 
+    scrollTrigger: true,
+    threshold: 0.1
+  });
+  
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const categoryRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  
+  // Animate section elements when they come into view
+  useEffect(() => {
+    if (!titleRef.current || !descriptionRef.current || !gridRef.current || !buttonRef.current) return;
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 70%",
+        once: true
+      }
+    });
+    
+    tl.fromTo(
+      titleRef.current,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+    )
+    .fromTo(
+      descriptionRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.4"
+    )
+    .fromTo(
+      categoryRefs.current,
+      { opacity: 0, y: 40, scale: 0.95 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        stagger: 0.1, 
+        duration: 0.6, 
+        ease: "back.out(1.2)" 
+      },
+      "-=0.3"
+    )
+    .fromTo(
+      buttonRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+      "-=0.2"
+    );
+  }, [sectionRef]);
+
   return (
-    <section className="py-16 bg-bg-hover-light dark:bg-bg-hover-dark">
+    <section ref={sectionRef} className="py-16 bg-bg-hover-light dark:bg-bg-hover-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-orbitron font-bold text-text-primary-light dark:text-text-primary-dark mb-4">
+          <h2 
+            ref={titleRef} 
+            className="text-3xl md:text-4xl font-orbitron font-bold text-text-primary-light dark:text-text-primary-dark mb-4"
+          >
             Shop by Category
           </h2>
-          <p className="text-text-secondary-light dark:text-text-secondary-dark max-w-3xl mx-auto">
+          <p 
+            ref={descriptionRef}
+            className="text-text-secondary-light dark:text-text-secondary-dark max-w-3xl mx-auto"
+          >
             Browse our extensive collection of tech products organized by category to find exactly what you need.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => (
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categories.map((category, index) => (
             <Link 
               key={category.id} 
               href={category.link}
+              ref={el => { categoryRefs.current[index] = el; }}
               className="group block"
             >
               <div className="relative h-64 overflow-hidden rounded-lg shadow-md">
@@ -109,7 +176,7 @@ export default function CategoryShowcase() {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div ref={buttonRef} className="text-center mt-12">
           <Link 
             href="/categories" 
             className="inline-flex items-center px-6 py-3 border border-primary text-base font-medium rounded-md text-primary hover:bg-primary hover:text-white transition-colors duration-300"

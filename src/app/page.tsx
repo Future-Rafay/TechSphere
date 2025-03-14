@@ -1,3 +1,5 @@
+
+
 import { 
   HeroSection, 
   FeaturedProducts, 
@@ -6,9 +8,10 @@ import {
   TechBlogPreview, 
   Newsletter 
 } from "@/components/home";
+
 import SmartPopup from "@/components/SmartPopup";
 // import AuthPopup from "@/components/AuthPopup";
-
+import { AnimatedElement } from "@/components/ui";
 
 import type { Metadata } from "next";
 
@@ -41,10 +44,21 @@ export default function Home() {
         <SmartPopup />
         {/* <AuthPopup /> */}
         <HeroSection />
-        <FeaturedProducts />
+        
+        <AnimatedElement type="fadeInUp" scrollTrigger={true} threshold={0.1} duration={0.7}>
+          <FeaturedProducts />
+        </AnimatedElement>
+        
         <CategoryShowcase />
-        <DealsSection />
-        <TechBlogPreview />
+
+        <AnimatedElement type="fadeInUp" scrollTrigger={true} threshold={0.1} duration={0.7}>
+          <DealsSection />
+        </AnimatedElement>
+
+        <AnimatedElement type="fadeInUp" scrollTrigger={true} threshold={0.1} duration={0.7}>
+          <TechBlogPreview />
+        </AnimatedElement>
+        
         <Newsletter />
       </main>
     </div>

@@ -1,7 +1,6 @@
 "use client";
-import Link from "next/link";
 import { FaBell } from "react-icons/fa";
-import { ThemeToggle } from "../../ui";
+import { ThemeToggle, TransitionLink } from "../../ui";
 import CategoryMenu from "./CategoryMenu";
 import CartPreview from "./CartPreview";
 import WishlistPreview from "./WishlistPreview";
@@ -14,26 +13,35 @@ export default function DesktopNav() {
 
       <CategoryMenu />
 
-      <Link href="/deals" className="p-2 hover:text-primary transition-colors">
+      <TransitionLink 
+        href="/deals" 
+        className="p-2 hover:text-primary transition-colors"
+        direction="down"
+      >
         Deals
-      </Link>
+      </TransitionLink>
 
-      <Link href="/blog" className="p-2 hover:text-primary transition-colors">
+      <TransitionLink 
+        href="/blog" 
+        className="p-2 hover:text-primary transition-colors"
+        direction="down"
+      >
         Tech Blog
-      </Link>
+      </TransitionLink>
 
       <div className="flex items-center space-x-3 ml-4">
         <WishlistPreview />
 
         <div className="relative">
-          <Link
+          <TransitionLink
             href="/notifications"
             className="p-2 hover:text-primary transition-colors relative group"
+            direction="up"
           >
             <FaBell className="h-5 w-5 transform group-hover:scale-110 transition-transform" />
             <span className="absolute top-6 left-4 h-2 w-2 bg-secondary rounded-full flex items-center justify-center">
             </span>
-          </Link>
+          </TransitionLink>
         </div>
 
         <CartPreview />

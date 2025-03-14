@@ -1,29 +1,31 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { FaUser, FaSignOutAlt, FaCog, FaClipboardList, FaChevronDown } from "react-icons/fa";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { TransitionLink } from "@/components/ui";
 
 export default function UserMenu() {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const { user, isAuthenticated, logout, isLoading } = useAuth();
+  const { user, isAuthenticated, logout} = useAuth();
   
   if (!isAuthenticated) {
     return (
       <div className="flex items-center space-x-2">
-        <Link 
+        <TransitionLink 
           href="/login" 
           className="px-4 py-1.5 text-sm font-medium rounded-lg border border-primary text-primary hover:bg-primary hover:text-white transition-colors"
+          direction="up"
         >
           Sign In
-        </Link>
-        <Link 
+        </TransitionLink>
+        <TransitionLink 
           href="/signup" 
           className="px-4 py-1.5 text-sm font-medium rounded-lg bg-primary text-white hover:bg-primary-hover transition-colors"
+          direction="up"
         >
           Sign Up
-        </Link>
+        </TransitionLink>
       </div>
     );
   }
@@ -36,11 +38,10 @@ export default function UserMenu() {
   };
   
   return (
-    <div className="relative ml-2">
+    <div className="relative">
       <button
         onClick={() => setShowUserMenu(!showUserMenu)}
-        onBlur={() => setTimeout(() => setShowUserMenu(false), 100)}
-        className="flex items-center space-x-1 p-1 rounded-full hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors focus:outline-none"
+        className="flex items-center space-x-1 focus:outline-none"
       >
         {user?.image ? (
           <Image 
@@ -68,47 +69,50 @@ export default function UserMenu() {
           </div>
           
           <div className="py-1">
-            <Link 
+            <TransitionLink 
               href="/profile" 
               className="flex items-center px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors"
+              direction="right"
             >
               <FaUser className="mr-2 h-4 w-4 text-primary" />
               Profile
-            </Link>
+            </TransitionLink>
             
             {user?.isAdmin && (
-              <Link 
+              <TransitionLink 
                 href="/admin/dashboard" 
                 className="flex items-center px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors"
+                direction="right"
               >
                 <FaClipboardList className="mr-2 h-4 w-4 text-primary" />
                 Admin Dashboard
-              </Link>
+              </TransitionLink>
             )}
             
-            <Link 
+            <TransitionLink 
               href="/orders" 
               className="flex items-center px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors"
+              direction="right"
             >
               <FaClipboardList className="mr-2 h-4 w-4 text-primary" />
               Orders
-            </Link>
+            </TransitionLink>
             
-            <Link 
+            <TransitionLink 
               href="/settings" 
               className="flex items-center px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors"
+              direction="right"
             >
               <FaCog className="mr-2 h-4 w-4 text-primary" />
               Settings
-            </Link>
+            </TransitionLink>
             
-            <button 
+            <button
               onClick={handleLogout}
-              disabled={isLoading}
-              className="flex items-center w-full text-left px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors text-red-500 disabled:opacity-50"
+              className="flex w-full items-center px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
             >
               <FaSignOutAlt className="mr-2 h-4 w-4" />
-              {isLoading ? "Signing out..." : "Sign out"}
+              Sign Out
             </button>
           </div>
         </div>

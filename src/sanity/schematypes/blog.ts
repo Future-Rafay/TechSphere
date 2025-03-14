@@ -1,3 +1,5 @@
+import { defineField } from "sanity";
+
 const blogSchema = {
   name: 'blog',
   title: 'Blog',
@@ -54,13 +56,68 @@ const blogSchema = {
       description: 'A short summary of the blog post',
       validation: (Rule: any) => Rule.max(200),
     },
-    {
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'array',
       of: [
         {
           type: 'block',
+          styles: [
+            {title: 'Normal', value: 'normal'},
+            {title: 'H1', value: 'h1'},
+            {title: 'H2', value: 'h2'},
+            {title: 'H3', value: 'h3'},
+            {title: 'H4', value: 'h4'},
+            {title: 'Quote', value: 'blockquote'},
+          ],
+          lists: [
+            {title: 'Bullet', value: 'bullet'},
+            {title: 'Number', value: 'number'},
+          ],
+          marks: {
+            decorators: [
+              {title: 'Strong', value: 'strong'},
+              {title: 'Emphasis', value: 'em'},
+              {title: 'Code', value: 'code'},
+              {title: 'Underline', value: 'underline'},
+              {title: 'Strike', value: 'strike-through'},
+            ],
+            annotations: [
+              {
+                title: 'URL',
+                name: 'link',
+                type: 'object',
+                fields: [
+                  {
+                    title: 'URL',
+                    name: 'href',
+                    type: 'url',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          type: 'code',
+          title: 'Code Block',
+          options: {
+            language: 'typescript',
+            languageAlternatives: [
+              {title: 'TypeScript', value: 'typescript'},
+              {title: 'JavaScript', value: 'javascript'},
+              {title: 'HTML', value: 'html'},
+              {title: 'CSS', value: 'css'},
+              {title: 'JSON', value: 'json'},
+              {title: 'Python', value: 'python'},
+              {title: 'PHP', value: 'php'},
+              {title: 'Ruby', value: 'ruby'},
+              {title: 'Shell', value: 'bash'},
+              {title: 'Markdown', value: 'markdown'},
+            ],
+            withFilename: true,
+          },
         },
         {
           type: 'image',
@@ -76,19 +133,12 @@ const blogSchema = {
             {
               name: 'alt',
               type: 'string',
-              title: 'Alternative text',
+              title: 'Alt text',
             },
           ],
         },
-        {
-          type: 'code',
-          options: {
-            withFilename: true,
-          },
-        },
       ],
-      validation: (Rule: any) => Rule.required(),
-    },
+    }),
     {
       name: 'isFeatured',
       title: 'Is Featured',

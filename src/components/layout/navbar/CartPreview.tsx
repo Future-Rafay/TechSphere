@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "@/lib/context/CartContext";
 import Image from "next/image";
+import { TransitionLink } from "@/components/ui";
 
 
 export default function CartPreview() {
@@ -42,11 +43,11 @@ export default function CartPreview() {
               {items.length > 0 ? (
                 items.map((item) => (
                   <div key={`${item.id}-${item.color}`} className="flex gap-2 items-center">
-                    <div className="w-20 h-20 bg-bg-hover-light dark:bg-bg-hover-dark rounded overflow-hidden">
-                      <Image width={48} height={48} src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    <div className="w-20 h-20 bg-bg-hover-light dark:bg-bg-hover-dark rounded shrink-0">
+                      <Image width={48} height={48} src={item.image} alt={item.name} className="w-full h-full object-contain" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium truncate">{item.name}</p>
+                      <p className="text-sm font-medium line-clamp-2">{item.name}</p>
                       <div className="flex justify-between items-center">
                         <p className="text-xs text-text-secondary-light dark:text-text-secondary-dark">
                           {item.quantity} × ${item.price.toFixed(2)}
@@ -62,9 +63,24 @@ export default function CartPreview() {
                   </div>
                 ))
               ) : (
-                <div className="py-4 text-center text-text-secondary-light dark:text-text-secondary-dark">
+                <div>
+                  <div className="py-4 text-center text-text-secondary-light dark:text-text-secondary-dark">
                   Your cart is empty
                 </div>
+                <TransitionLink
+                  href="/products"
+                  className="mb-2 block w-full py-2 px-4 bg-primary text-white rounded-lg text-center hover:bg-primary-hover transition-colors"
+                >
+                  View Products
+                </TransitionLink>
+                <TransitionLink
+                  href="/cart"
+                  className=" block w-full py-2 px-4 bg-primary text-white rounded-lg text-center hover:bg-primary-hover transition-colors"
+                >
+                  View Cart
+                </TransitionLink>
+                </div>
+                
               )}
             </div>
             {items.length > 0 && (

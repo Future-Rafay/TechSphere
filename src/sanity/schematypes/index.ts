@@ -5,7 +5,6 @@ import product from './product'
 import review from './review'
 import brand from './brand'
 import user from './user'
-import blog from './blog'
 import author from './author'
 import wishlist from './wishlist'
 import order from './order'
@@ -16,7 +15,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     product,
     review,
     brand,
-    blog,
     author,
     wishlist,
     order,

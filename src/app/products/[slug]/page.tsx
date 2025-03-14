@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FaStar, FaShoppingCart, FaBolt, FaHeart, FaShare, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { products } from "@/data/products";
 import { useCart } from "@/lib/context/CartContext";
+import { useWishlist } from "@/lib/context/WishlistContext";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -20,7 +21,9 @@ export default function ProductDetailPage() {
   const [addedToCart, setAddedToCart] = useState(false);
   
   const { addItem } = useCart();
-  
+  const { addItem: addToWishlist } = useWishlist();
+
+
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
@@ -35,6 +38,16 @@ export default function ProductDetailPage() {
       </div>
     );
   }
+
+  const handleAddToWishlist = (product: any) => {
+    const item = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    };
+    addToWishlist(item);
+  };
   
   const handleAddToCart = () => {
     addItem({
@@ -258,7 +271,9 @@ export default function ProductDetailPage() {
           
           {/* Social Actions */}
           <div className="flex space-x-4 mb-8">
-            <button className="flex items-center space-x-1 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary">
+            <button
+            onClick={() => handleAddToWishlist(product)}  
+            className="flex items-center space-x-1 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary">
               <FaHeart />
               <span>Add to Wishlist</span>
             </button>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FaHeart, FaTrash } from "react-icons/fa";
 import { useWishlist } from "@/lib/context/WishlistContext";
 import Image from "next/image";
-
+import { TransitionLink } from "@/components/ui";
 export default function WishlistPreview() {
   const [showWishlistPreview, setShowWishlistPreview] = useState(false);
   const { items, itemCount, removeItem } = useWishlist();
@@ -62,8 +62,22 @@ export default function WishlistPreview() {
                   </div>
                 ))
               ) : (
-                <div className="py-4 text-center text-text-secondary-light dark:text-text-secondary-dark">
+                <div>
+                  <div className="py-4 text-center text-text-secondary-light dark:text-text-secondary-dark">
                   Your wishlist is empty
+                </div>
+                <TransitionLink
+                  href="/products"
+                  className="mb-2 block w-full py-2 px-4 bg-primary text-white rounded-lg text-center hover:bg-primary-hover transition-colors"
+                >
+                  View Products
+                </TransitionLink>
+                <TransitionLink
+                  href="/wishlist"
+                  className="block w-full py-2 px-4 bg-primary text-white rounded-lg text-center hover:bg-primary-hover transition-colors"
+                >
+                  View Wishlist
+                </TransitionLink>
                 </div>
               )}
               

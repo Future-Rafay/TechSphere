@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
+import gsap from "gsap";
+import { useAnimation } from "@/lib/hooks/useAnimation";
 
 const slides = [
   {
@@ -40,20 +42,83 @@ const slides = [
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [prevSlide, setPrevSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRef = useAnimation({ type: "fadeIn", duration: 1 });
+  
+  const changeSlide = (index: number) => {
+    if (isAnimating || index === currentSlide) return;
+    
+    setIsAnimating(true);
+    setPrevSlide(currentSlide);
+    setCurrentSlide(index);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 5000);
+      const nextSlide = currentSlide === slides.length - 1 ? 0 : currentSlide + 1;
+      changeSlide(nextSlide);
+    }, 7000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentSlide, sectionRef]);
+  
+  // Animation for slide transition
+  useEffect(() => {
+    if (prevSlide === currentSlide) return;
+    
+    const currentContent = contentRefs.current[currentSlide];
+    const prevContent = contentRefs.current[prevSlide];
+    
+    if (!currentContent || !prevContent) return;
+    
+    // Animate out previous slide content
+    gsap.to(prevContent, {
+      opacity: 0,
+      x: -50,
+      duration: 0.5,
+      ease: "power2.in",
+    });
+    
+    // Animate in current slide content
+    gsap.fromTo(
+      currentContent,
+      { opacity: 0, x: 50 },
+      { 
+        opacity: 1, 
+        x: 0, 
+        duration: 0.8, 
+        delay: 0.3, 
+        ease: "power3.out",
+        onComplete: () => setIsAnimating(false)
+      }
+    );
+    
+    // Animate slide elements
+    const currentElements = currentContent.querySelectorAll('h1, h2, p, a');
+    gsap.fromTo(
+      currentElements,
+      { opacity: 0, y: 20 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        stagger: 0.1, 
+        duration: 0.5, 
+        delay: 0.5, 
+        ease: "power2.out" 
+      }
+    );
+  }, [currentSlide, prevSlide]);
 
   return (
-    <section className="relative h-[800px] w-full overflow-hidden">
+    <section ref={sectionRef} className="relative h-[800px] w-full overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
           key={slide.id}
+          ref={el => { slideRefs.current[index] = el; }}
           className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentSlide ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
@@ -72,7 +137,11 @@ export default function HeroSection() {
 
           {/* Content */}
           <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-            <div className="max-w-xl text-white">
+            <div 
+              ref={el => { contentRefs.current[index] = el; }}
+              className="max-w-xl text-white"
+              style={{ opacity: index === 0 ? 1 : 0 }}
+            >
               <h2 className="text-secondary font-orbitron uppercase tracking-wider mb-2">
                 {slide.subtitle}
               </h2>
@@ -84,10 +153,10 @@ export default function HeroSection() {
               </p>
               <Link
                 href={slide.link}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors duration-300"
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors duration-300 group"
               >
-                {slide.cta}
-                <FaArrowRight className="ml-2" />
+                <span>{slide.cta}</span>
+                <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
               </Link>
             </div>
           </div>
@@ -99,11 +168,12 @@ export default function HeroSection() {
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentSlide(index)}
+            onClick={() => changeSlide(index)}
             className={`w-3 h-3 rounded-full transition-colors duration-300 ${
               index === currentSlide ? "bg-primary" : "bg-white/50 hover:bg-white/80"
             }`}
             aria-label={`Go to slide ${index + 1}`}
+            disabled={isAnimating}
           />
         ))}
       </div>
