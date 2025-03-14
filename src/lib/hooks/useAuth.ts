@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function useAuth() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,11 +63,18 @@ export function useAuth() {
   const logout = async () => {
     setLoading(true);
     try {
-      await signOut({ redirect: false });
-      router.push("/");
+      await update(null);
+      
+      await signOut({ 
+        callbackUrl: '/',
+        redirect: true
+      });
+      
+      router.push('/');
+      router.refresh();
     } catch (err) {
-      console.error(err);
-      setError("An unexpected error occurred");
+      console.error("Logout error:", err);
+      setError("An unexpected error occurred during logout");
     } finally {
       setLoading(false);
     }

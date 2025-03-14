@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 
 export default function UserMenu() {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, isLoading } = useAuth();
   
   if (!isAuthenticated) {
     return (
@@ -27,6 +27,13 @@ export default function UserMenu() {
       </div>
     );
   }
+  
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowUserMenu(false);
+    await logout();
+  };
   
   return (
     <div className="relative ml-2">
@@ -96,11 +103,12 @@ export default function UserMenu() {
             </Link>
             
             <button 
-              onClick={() => logout()}
-              className="flex items-center w-full text-left px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors text-red-500"
+              onClick={handleLogout}
+              disabled={isLoading}
+              className="flex items-center w-full text-left px-4 py-2 text-sm hover:bg-bg-hover-light dark:hover:bg-bg-hover-dark transition-colors text-red-500 disabled:opacity-50"
             >
               <FaSignOutAlt className="mr-2 h-4 w-4" />
-              Sign out
+              {isLoading ? "Signing out..." : "Sign out"}
             </button>
           </div>
         </div>

@@ -8,19 +8,9 @@ import { useWishlist } from "@/lib/context/WishlistContext";
 import { useCart } from "@/lib/context/CartContext";
 
 export default function WishlistPage() {
-  const { items: wishlistItems, removeItem, clearWishlist, isLoading } = useWishlist();
+  const { items: wishlistItems, removeItem, clearWishlist, isLoading, addItem: addToWishlist } = useWishlist();
   const { addItem: addToCart } = useCart();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  
-  // Format date to relative time
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
-    });
-  };
   
   // Toggle dropdown menu
   const toggleDropdown = (id: string) => {
@@ -36,6 +26,17 @@ export default function WishlistPage() {
       image: item.image,
       quantity: 1
     });
+  };
+
+  // Handle add to wishlist
+  const handleAddToWishlist = (product: any) => {
+    const item = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    };
+    addToWishlist(item);
   };
 
   if (isLoading) {
@@ -213,16 +214,7 @@ export default function WishlistPage() {
                       </span>
                       <button 
                         className="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition-colors"
-                        onClick={() => {
-                          const item = {
-                            id: product.id,
-                            name: product.name,
-                            price: product.price,
-                            image: product.image,
-                          };
-                          const { addItem } = useWishlist();
-                          addItem(item);
-                        }}
+                        onClick={() => handleAddToWishlist(product)}
                       >
                         <FaHeart />
                       </button>

@@ -42,7 +42,7 @@ export default function CartPreview() {
               {items.length > 0 ? (
                 items.map((item) => (
                   <div key={`${item.id}-${item.color}`} className="flex gap-2 items-center">
-                    <div className="w-12 h-12 bg-bg-hover-light dark:bg-bg-hover-dark rounded overflow-hidden">
+                    <div className="w-20 h-20 bg-bg-hover-light dark:bg-bg-hover-dark rounded overflow-hidden">
                       <Image width={48} height={48} src={item.image} alt={item.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1">

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sanity/cli": "^3.79.0",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.79.0",
     "@types/bcryptjs": "^2.4.6",

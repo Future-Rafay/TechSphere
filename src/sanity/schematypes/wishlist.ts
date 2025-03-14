@@ -1,4 +1,4 @@
-export default {
+const wishlistSchema = {
   name: 'wishlist',
   title: 'Wishlist',
   type: 'document',
@@ -47,3 +47,5 @@ export default {
     },
   },
 };
+
+export default wishlistSchema;

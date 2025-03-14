@@ -1,4 +1,4 @@
-export default {
+const brandSchema = {
   name: 'brand',
   title: 'Brand',
   type: 'document',
@@ -66,3 +66,5 @@ export default {
     },
   },
 }; 
+
+export default brandSchema;

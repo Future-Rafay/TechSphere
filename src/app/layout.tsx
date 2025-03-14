@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { Inter, Orbitron, Poppins } from "next/font/google";
 import "./globals.css";
 import { Footer, Navbar, ThemeProvider } from "@/components/layout";
-import SessionWrapper from "@/components/auth/SessionWrapper";
 import { CartProvider } from "@/lib/context/CartContext";
 import { WishlistProvider } from "@/lib/context/WishlistContext";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import AuthProvider from "@/lib/auth-provider";
+import AuthProvider from "@/components/auth/AuthProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -99,30 +98,28 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <SessionWrapper>
-      <html lang="en" suppressHydrationWarning>
-        <head />
-        <body
-          className={`${inter.variable} ${orbitron.variable} ${poppins.variable} font-sans`}
-        >
-          <AuthProvider session={session}>
-            <CartProvider>
-              <WishlistProvider>
-                <ThemeProvider
-                  attribute="class"
-                  defaultTheme="system"
-                  enableSystem
-                  disableTransitionOnChange
-                >
-                  <Navbar />
-                  {children}
-                  <Footer />
-                </ThemeProvider>
-              </WishlistProvider>
-            </CartProvider>
-          </AuthProvider>
-        </body>
-      </html>
-    </SessionWrapper>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={`${inter.variable} ${orbitron.variable} ${poppins.variable} font-sans`}
+      >
+        <AuthProvider session={session}>
+          <CartProvider>
+            <WishlistProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Navbar />
+                {children}
+                <Footer />
+              </ThemeProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

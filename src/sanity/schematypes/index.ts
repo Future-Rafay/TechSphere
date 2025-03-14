@@ -12,15 +12,15 @@ import order from './order'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
+    user,
     product,
-    category,
-    banner,
+    review,
+    brand,
     blog,
     author,
-    brand,
-    review,
-    user,
-    order,
     wishlist,
+    order,
+    category,
+    banner,
   ],
 }
